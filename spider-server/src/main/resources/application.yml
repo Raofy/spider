@@ -1,0 +1,39 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 2000
+    min-spare-threads: 100
+  port: 7200
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  task:
+    scheduling:
+      thread-name-prefix: schedule-pool-
+      pool:
+        size: 10
+jin10:
+  socket:
+    port: 9700
+
+baidu:
+  trans:
+    appId: 20200411000416443
+    securityKey: 3ZS237_k_zfBFjc7kwxU
+
+
+
+

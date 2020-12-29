@@ -1,0 +1,200 @@
+
+docker 环境搭建
+
+===============================================mysql============================================== 
+
+docker pull hub.c.163.com/library/mysql:8.0.1
+
+启动命令：
+
+docker run -it  --restart always --privileged=true   -v /root/spider/mysql/my.cnf:/etc/mysql/my.cnf   -v /data/spider/mysql:/var/lib/mysql --name mysql -e MYSQL_ROOT_PASSWORD=root123 -p 3306:3306 -d docker-mysql:3.0
+
+docker run -it --rm --name mysql -e MYSQL_ROOT_PASSWORD=root123 -p 3306:3306 -d mysql
+
+mysql -uroot -ppassword #登录
+
+use mysql; #选择数据库
+
+# 远程连接请将'localhost'换成'%'
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER; #更改加密方式
+
+ALTER USER 'root'@'%' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER;
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'; #更新用户密码
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+
+FLUSH PRIVILEGES; #刷新权限
+
+
+show global variables like '%lower_case%';
+
+
+select @@GLOBAL.sql_mode;
+
+my.cnf
+
+lower_case_table_names=1
+
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+
+
+ sql_mode ='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+
+
+*************************************************************************************
+ALTER USER 'root'@'%' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER;
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+
+FLUSH PRIVILEGES;
+
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root123';
+
+update user set authentication_string='' where user='root' ;
+
+ALTER user 'root'@'%' IDENTIFIED BY 'root123' ;
+
+FLUSH PRIVILEGES;
+*************************************************************************************
+
+修改密码：
+
+grant all privileges on *.* to 'root'@'%' identified by '123456';
+
+grant all privileges on *.* to 'root'@'%' identified by 'root123' with grant option;
+
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root123'
+
+update user set authentication_string='' where user='root'
+
+ALTER user 'root'@'%' IDENTIFIED BY 'root123'
+
+
+
+==============================================elasticsearch=========================================
+
+
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+
+https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.1/elasticsearch-analysis-ik-7.5.1.zip
+
+启动命令：
+
+-e "ES_JAVA_OPTS=-Xms768m -Xmx768m"
+
+docker run --restart always  -p 9200:9200 -p 9300:9300 -d --name es -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms768m -Xmx768m"  -v /root/spider/es/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -v /mnt/spider/es/data:/usr/share/elasticsearch/data  elasticsearch:7.6.1
+
+docker run --restart always  -p 9200:9200 -p 9300:9300 -d --name es -e "discovery.type=single-node" -v /root/spider/es/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -v /data/spider/es/data:/usr/share/elasticsearch/data  docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+
+docker run --restart always  -p 172.16.30.177:9200:9200 -p 172.16.30.177:9300:9300 -d --name es -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms768m -Xmx768m"  -v /root/spider/es/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -v /mnt/spider/es/data:/usr/share/elasticsearch/data  elasticsearch:7.6.1
+
+docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+
+docker run -p 9200:9200 -p 9300:9300 -d --name es -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+(成功)
+
+/usr/share/elasticsearch/config/elasticsearch.yml
+
+/usr/share/elasticsearch/data
+
+
+-v /data/spider/es/data /usr/share/elasticsearch/data
+
+docker run -d -p 9200:9200 -p 9300:9300 --name elasticsearch docker.elastic.co/elasticsearch/elasticsearch:7.5.1 (失败)
+
+docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e  "ES_JAVA_OPTS=-Xms512m -Xmx512m"  -d 2bd69c322e98
+
+
+docker rmi 镜像id  删除镜像
+
+docker rm 容器id   删除容器
+
+安装es-head
+
+docker pull mobz/elasticsearch-head:5
+
+docker run -d --name es_admin -p 9100:9100 mobz/elasticsearch-head:5
+
+安装ik分词器
+
+./bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.1/elasticsearch-analysis-ik-7.5.1.zip
+
+
+
+
+==============================================rabbitmq================================================
+
+
+docker pull rabbitmq:3.8-rc-management-alpine
+
+
+启动mq：
+docker run --restart always -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:3.8-rc-management-alpine
+
+
+
+==============================================redis================================================
+
+
+docker run  --restart always -d -p 6379:6379   -v /data/spider/redis/data:/data -v /root/spider/redis/redis.conf:/etc/redis/redis.conf  --privileged=true --name redis  redis:6.0-rc-alpine redis-server /etc/redis/redis.conf
+
+
+==============================================xxl-job================================================
+
+
+docker run   --restart always -e   PARAMS="--spring.datasource.url=jdbc:mysql://192.168.88.102:3306/sprider?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=root123 "  -p 7300:8080 -v /root/spider/xxl-job/applogs:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.1.2
+
+docker run  --restart always  --privileged=true -e   PARAMS="--spring.datasource.url=jdbc:mysql://rm-bp1iml36y247329g2lo.mysql.rds.aliyuncs.com:3306/sprider?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=sprider --spring.datasource.password=j6ixcvDn\!M@s2ofOg9&VcX^^c7luxP "  -p 7300:8080 -v /root/spider/xxl-job/applogs:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.1.2
+
+docker run  --restart always  --privileged=true -e   PARAMS="--spring.datasource.url=jdbc:mysql://rm-bp1iml36y247329g2lo.mysql.rds.aliyuncs.com:3306/sprider?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=sprider  " -e spring.datasource.password='j6ixcvDn!M@s2ofOg9&VcX^^c7luxP' -p 7300:8080 -v /root/spider/xxl-job/applogs:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.1.2
+
+docker run  --restart always  --privileged=true -e   PARAMS="--spring.datasource.url=jdbc:mysql://rm-bp1iml36y247329g2lo.mysql.rds.aliyuncs.com:3306/sprider?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=sprider  " -e spring.datasource.password='j6ixcvDn!M@s2ofOg9&VcX^^c7luxP' -p 7300:8080 -v /mnt/spider/xxl-job/applogs:/data/applogs --name xxl-job-admin --network jin10net --network-alias  net-xxl  -d xuxueli/xxl-job-admin:2.1.2
+
+
+
+启动nginx:
+docker run -d -v /data/spider/console:/var/log/nginx -v /data/pages:/data/pages -v $PWD/nginx.conf:/etc/nginx/nginx.conf -p 80:80 --name=console --link=spider-terminal --link=spider-scheduler --restart=always 115.29.215.82:8000/html/console:2.6
+启动nginx:(生产环境)
+docker run -d -v /mnt/spider/console:/var/log/nginx -v /mnt/pages:/data/pages -v /root/spider/console/nginx.conf:/etc/nginx/nginx.conf -p 80:80 --name=console --link=spider-terminal:terminal --link=spider-scheduler:scheduler --restart=always axizdkr/tengine:2.3.2
+启动nginx:(network)
+docker run -d -v /mnt/spider/console:/var/log/nginx -v /mnt/pages:/data/pages -v /root/spider/console/nginx.conf:/etc/nginx/nginx.conf -p 80:80 --name=console --network jin10net --network-alias  net-nginx  --restart=always axizdkr/tengine:2.3.2
+
+启动spider-server:
+docker run  --restart always -d -p 7200:7200 -p  9700:9700  -v /root/spider/terminal/log:/log  -v /etc/timezone:/etc/timezone -v /etc/localtime:/etc/localtime --name spider-terminal spider-server:1.0
+启动spider-server(不加时区):
+docker run  --restart always -d -p 7200:7200 -p  9700:9700  -v /mnt/spider/terminal/log:/log   --name spider-terminal spider-server:1.6
+启动spider-server(network):
+docker run  --restart always -d -p 7200:7200 -p  9700:9700  -m 2g -e JAVA_OPTS="-XX:MaxRAM=512m" --network jin10net --network-alias  net-spider-terminal  -v /mnt/spider/terminal/log:/log   --name spider-terminal spider-server:4.5
+
+
+
+启动admin:
+docker run  --restart always -d -p  7100:7100   -v /root/spider/scheduler/log:/log   -v /etc/timezone:/etc/timezone -v /etc/localtime:/etc/localtime --name spider-scheduler admin:1.0
+启动admin(不加时区):
+docker run  --restart always -d -p  7100:7100   -v /mnt/spider/scheduler/log:/log   --name spider-scheduler admin:1.8
+启动admin(network):
+docker run  --restart always -d -p  7100:7100 -m 2g -e JAVA_OPTS="-XX:MaxRAM=512m" --network jin10net --network-alias  net-spider-scheduler  -v /mnt/spider/scheduler/log:/log   --name spider-scheduler admin:4.2
+
+
+启动socket-server:
+docker run  --restart always -d  -p  12550:12550  -v /root/spider/socket-server/log:/log  -v /etc/timezone:/etc/timezone -v /etc/localtime:/etc/localtime --name socket-server spider-socket:1.0
+启动socket-server(不加时区):
+docker run  --restart always -d  -p  12550:12550 -m 1g -e JAVA_OPTS="-XX:MaxRAM=300m" --network jin10net --network-alias  net-spider-socket -v /mnt/spider/websocket/log:/log  --name socket-server spider-socket:2.8
+
+--network jin10net --network-alias  net-spider-socket
+
+
+
+启动user-analysis
+docker run  --restart always  -d  -p  4500:4500  -p 6700:6700  -v /root/user-analysis/log:/log  -v /etc/timezone:/etc/timezone -v /etc/localtime:/etc/localtime --name user-analysis user-analysis:2.1
+(生产环境)
+docker run  --restart always  -d  -p  4500:4500  -p 6700:6700   -m 500m  -e JAVA_OPTS="-XX:MaxRAM=300m" -v /mnt/spider/user-analysis/log:/log  -v /etc/localtime:/etc/localtime --name user-analysis user-analysis:2.2
+
+
+启动glances
+docker run -d --restart="always" -v /root/spider/glances/glances.conf:/glances/conf/glances.conf -v /var/run/docker.sock:/var/run/docker.sock:ro --pid host -e GLANCES_OPT="--quiet --disable-plugin percpu,memswap,processcount,gpu,sensors,diskio,docker --export restful -t 5 " docker.io/nicolargo/glances

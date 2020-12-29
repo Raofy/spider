@@ -1,0 +1,15 @@
+server:
+  port: 7500
+spring:
+  profiles:
+    active: dev
+
+    task:
+      scheduling:
+        thread-name-prefix: task-pool-
+        pool:
+          size: 10
+
+jin10:
+  socket:
+    port: 12550

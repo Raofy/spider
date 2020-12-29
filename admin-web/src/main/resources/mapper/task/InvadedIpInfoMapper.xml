@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jin10.spider.modules.task.mapper.InvadedIpInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jin10.spider.modules.task.entity.InvadedIpInfo">
+    <result column="id" property="id" />
+        <result column="ip" property="ip" />
+        <result column="is_foreign" property="isForeign" />
+        <result column="area" property="area" />
+        <result column="platform" property="platform" />
+        <result column="delay" property="delay" />
+        <result column="check_times" property="checkTimes" />
+        <result column="expire_time" property="expireTime" />
+        <result column="check_time" property="checkTime" />
+        <result column="create_time" property="createTime" />
+        <result column="proxy_level" property="proxyLevel" />
+        <result column="deleted" property="deleted" />
+        <result column="is_valid" property="isValid" />
+        <result column="type" property="type" />
+        <result column="extra" property="extra" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        ip, is_foreign, area, platform, delay, check_times, expire_time, check_time, create_time, proxy_level, deleted, is_valid, type, extra
+    </sql>
+
+</mapper>

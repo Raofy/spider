@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jin10.spider.spiderserver.mapper.TemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jin10.spider.spiderserver.entity.Template">
+        <id column="id" property="id" />
+        <result column="page_site" property="pageSite" />
+        <result column="domain_name" property="domainName" />
+        <result column="retry_times" property="retryTimes" />
+        <result column="real_site" property="realSite" />
+        <result column="title" property="title" />
+        <result column="filter_by" property="filterBy" />
+        <result column="status" property="status" />
+        <result column="interval_time" property="intervalTime" />
+        <result column="channel" property="channel" />
+        <result column="category" property="category" />
+        <result column="encoding" property="encoding" />
+        <result column="create_time" property="createTime" />
+        <result column="priority" property="priority" />
+        <result column="weforeign" property="weforeign" />
+        <result column="dept_id" property="deptId" />
+        <result column="update_time" property="updateTime" />
+        <result column="special" property="special" />
+        <result column="random_query" property="randomQuery" />
+        <result column="timeout" property="timeout" />
+        <result column="detail_encoding" property="detailEncoding" />
+        <result column="remark" property="remark" />
+        <result column="deleted" property="deleted" />
+        <result column="encrypt_type" property="encryptType" />
+        <result column="spider_temp_id" property="spiderTempId" />
+        <result column="proxy_level" property="proxyLevel" />
+        <result column="expire_time" property="expireTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+        <result column="delete_user" property="deleteUser" />
+        <result column="delete_time" property="deleteTime" />
+        <result column="stop_reason" property="stopReason" />
+        <result column="stop_time" property="stopTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, page_site, domain_name, retry_times, real_site, title, filter_by, status, interval_time, channel, category, encoding, create_time, priority, weforeign, dept_id, update_time, special, random_query, timeout, detail_encoding, remark, deleted, encrypt_type, spider_temp_id, proxy_level, expire_time, create_user, update_user, delete_user, delete_time, stop_reason, stop_time
+    </sql>
+
+</mapper>

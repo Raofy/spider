@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jin10.spider.spiderserver.mapper.SysUserRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jin10.spider.spiderserver.entity.SysUserRole">
+    <result column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="role_id" property="roleId" />
+        <result column="role_name" property="roleName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        user_id, role_id
+    </sql>
+
+    <select id="selectUserRoleListByUserId" resultMap="BaseResultMap">
+       select
+       r.role_name,ur.role_id
+       from sys_role r
+       left join sys_user_role ur on r.role_id=ur.role_id
+       left join sys_user u on u.user_id=ur.user_id
+       where u.user_id=#{userId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

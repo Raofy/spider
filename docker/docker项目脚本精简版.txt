@@ -1,0 +1,19 @@
+1.spider-server
+docker run  --restart always -d -p 7200:7200 -p  9700:9700  -m 2g -e JAVA_OPTS="-XX:MaxRAM=512m" --network jin10net --network-alias  net-spider-terminal  -v /mnt/spider/terminal/log:/log   --name spider-terminal spider-server:3.8
+
+
+docker run  --restart always -d -p 7200:7200 -p  9700:9700  --network jin10net --network-alias  net-spider-terminal  -v /mnt/spider/terminal/log:/log   --name spider-terminal spider-server:8.1.2
+
+
+
+2.admin
+docker run  --restart always -d -p  7100:7100    --network jin10net --network-alias  net-spider-scheduler  -v /mnt/spider/scheduler/log:/log   --name spider-scheduler admin:7.2
+
+
+3.websocket
+docker run  --restart always -d  -p  12550:12550   --network jin10net --network-alias  net-spider-socket -v /mnt/spider/websocket/log:/log  --name socket-server spider-socket:4.8
+
+
+4.pushsocket
+docker run  --restart always -d  -p  13340:13340  -p 14570:14570  --network jin10net --network-alias  net-push -v /mnt/spider/push/log:/log  --name push push:1.5
+

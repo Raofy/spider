@@ -1,0 +1,92 @@
+搭建环境
+一：安装docker
+
+1.安装需要的软件包
+yum install -y yum-utils  device-mapper-persistent-data lvm2
+
+2.设置yum源
+yum-config-manager  --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+或者 用阿里云的
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+3.安装docker
+yum install -y docker-ce
+
+4.查询版本列表
+yum list docker-ce --showduplicates | sort -r
+
+5.指定版本安装(这里的例子是安装上面列表中的第二个)
+yum install -y docker-ce-17.09.0.ce
+
+6.启动docker
+systemctl start docker.service
+
+7.验证安装是否成功
+docker version
+
+8.设置容器日志最大值
+
+新建/etc/docker/daemon.json，若有就不用新建了。添加log-dirver和log-opts参数，样例如下：
+
+
+# vim /etc/docker/daemon.json
+
+{
+   "registry-mirrors": ["https://fy707np5.mirror.aliyuncs.com"],
+   "insecure-registries": ["115.29.215.82:8000"],
+  "log-driver":"json-file",
+  "log-opts": {"max-size":"250m", "max-file":"2"}  # max-size=500m，意味着一个容器日志大小上限是500M，max-file=3，意味着一个容器有三个日志，分别是id+.json、id+1.json、id+2.json。
+}
+
+// 重启docker守护进程
+# systemctl daemon-reload
+
+# systemctl restart docker
+
+9.设置docker开机自启动
+
+systemctl enable docker
+
+10. 查看docker容器状态
+
+docker stats
+
+二  安装数据库，redis，mq,等等 镜像
+
+去 https://hub.docker.com/  寻找 自己要安装的镜像
+1:下载镜像命令   docker pull 镜像名字
+2:修改配置文件
+3：设置开机自启
+             开机自启        后台运行  端口映射       端口映射        给镜像取名字
+docker run --restart always -d       -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:3.8-rc-management-alpine
+
+三 将jar包打成docker镜像
+1：maven的 clean ，package 命令打包成jar包
+2:上传到服务器对应的文件夹
+3：将 Dockerfile 文件放到 jar 同级 目录
+4：在此目录执行命令 docker build -t XXX:1.0 .
+5: 启动次镜像
+            开机自启          后台运行  端口映射        端口映射       设置网络           网络别名       别名名称   日志映射                       容器名称
+docker run  --restart always -d  -p  13340:13340  -p 14570:14570  --network jin10net --network-alias  net-push -v /mnt/spider/push/log:/log  --name push push:1.5
+
+6：停止容器
+docker stop 容器id
+7 启动容器
+docker start 容器id
+8 重启容器
+docker restart 容器id
+
+9：删除容器
+docker rm -f 容器id
+
+10 删除镜像
+docker rmi 镜像id
+
+11 查看镜像
+docker images
+
+12 查看镜像的运行
+docker ps -a
+
+13 查看 docker 容器状态
+docker stats

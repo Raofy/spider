@@ -1,0 +1,7 @@
+
+1.linux 查询进程占用内存(MEM)最高的前10个进程
+ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|head
+
+
+2.Linux 查询进程占用 cpu 最高的前10个进程
+ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head

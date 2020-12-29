@@ -1,0 +1,54 @@
+
+Harbor 镜像仓库推送命令：
+
+
+
+http://115.29.215.82:8000/
+
+
+vim /etc/docker/daemon.json
+
+添加镜像加速：
+
+{
+  "registry-mirrors": ["https://fy707np5.mirror.aliyuncs.com"],
+  "insecure-registries": ["115.29.215.82:8000"]
+}
+
+
+然后重启docker:
+
+systemctl daemon-reload
+systemctl restart docker
+
+
+登录harbor:
+
+docker login 115.29.215.82:8000 -u 18883179959
+
+输入password:  2cjjdXOGWOTqYOXB
+
+1.生产指定镜像
+docker tag SOURCE_IMAGE[:TAG] 115.29.215.82:8000/airey/IMAGE[:TAG]
+
+示例: docker tag  admin:1.0  115.29.215.82:8000/airey/admin:1.0
+
+========================================================================
+docker images;
+
+查看生成的镜像:
+
+    REPOSITORY                      TAG 
+
+    115.29.215.82:8000/airey/admin   1.0
+=========================================================================
+
+2.推送镜像
+docker push 115.29.215.82:8000/airey/IMAGE[:TAG]
+
+示例： docker push 115.29.215.82:8000/airey/admin:1.0
+
+3.拉取镜像
+docker pull 115.29.215.82:8000/airey/IMAGE[:TAG]
+
+示例： docker push 115.29.215.82:8000/airey/admin:1.0

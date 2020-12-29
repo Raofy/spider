@@ -1,0 +1,4 @@
+
+1.查询所有事物
+
+select * from information_schema.innodb_trx;

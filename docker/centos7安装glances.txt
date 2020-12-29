@@ -1,0 +1,68 @@
+
+## yum 安装 pip
+
+sudo yum install epel-release
+sudo yum install python-pip
+sudo yum clean all
+
+## 升级pip
+pip install --upgrade pip
+
+## pip 安装 glances
+pip install glances
+
+## 运行 glances
+glances
+
+
+## 修改配置文件
+
+cd /etc
+mkdir glances
+vim glances.conf
+
+[restful]
+host=115.29.174.245
+port=7100
+protocol=http
+path=/admin/taskLog/addServerInfo
+
+
+运行glances
+glances --disable-plugin percpu,memswap,processcount,gpu,sensors,diskio --export restful -t 5 -q &
+
+查看glances 状态
+ps -ef|grep glances
+
+
+###### 用supervisor的方式管理
+1.初始化
+yum install supervisor
+
+2.进入  /etc/supervisord.d/
+
+cd /etc/supervisord.d/
+
+创建ini文件
+ vim glances-client.ini
+
+[program:glances-client]
+command=glances --disable-plugin percpu,memswap,processcount,gpu,sensors,diskio --export restful -t 5 -q
+autostart=true
+autorestart=true
+startsecs=3
+startretries=3
+stopwaitsecs=180
+redirect_stderr=true
+stdout_logfile_maxbytes=50MB
+stdout_logfile=/mnt/log/supervisor/%(program_name)s_access.log
+stderr_logfile=/mnt/log/supervisor/%(program_name)s_error.log
+user=root
+process_name=%(program_name)s
+environment=LC_ALL="en_US.UTF-8",LANG="en_US.UTF-8"
+
+3.启动
+supervisord -c /etc/supervisord.conf
+
+4.查看状态
+supervisorctl status

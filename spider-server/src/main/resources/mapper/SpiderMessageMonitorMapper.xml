@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jin10.spider.spiderserver.mapper.SpiderMessageMonitorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jin10.spider.spiderserver.entity.SpiderMessageMonitor">
+        <id column="id" property="id" />
+        <result column="source" property="source" />
+        <result column="category" property="category" />
+        <result column="channel" property="channel" />
+        <result column="dispatch" property="dispatch" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, source, category, channel, dispatch, update_time
+    </sql>
+
+</mapper>

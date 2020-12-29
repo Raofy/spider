@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jin10.spider.spiderserver.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jin10.spider.spiderserver.entity.SysUser">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="group_name" property="groupName"/>
+        <collection property="roleList"
+                    ofType="com.jin10.spider.spiderserver.entity.SysUserRole"
+                    select="findSysRoleByUserId"
+                    column="user_id">
+
+        </collection>
+
+    </resultMap>
+
+    <resultMap id="SysUserVOMap" type="com.jin10.spider.spiderserver.dto.SysUserInfoDTO">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+
+        <collection property="roleList"
+                    ofType="com.jin10.spider.spiderserver.entity.SysUserRole"
+                    select="findSysRoleByUserId"
+                    column="user_id">
+        </collection>
+
+        <collection property="menuList" column="user_id"
+                    ofType="com.jin10.spider.spiderserver.entity.SysMenu"
+                    select="com.jin10.spider.spiderserver.mapper.SysMenuMapper.findSysMenuByUserId">
+        </collection>
+
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, username, password, dept_id, email, phone, status, create_time, update_time
+    </sql>
+
+
+    <select id="findSysUserList" resultMap="BaseResultMap">
+        select
+       a.user_id, a.username,email,a.phone,status,a.create_time,a.maintainer,c.name as group_name
+        from sys_user a left join sys_user_group b on a.user_id = b.user_id left join sys_group c on b.group_id = c.id
+    </select>
+
+    <select id="findSysRoleByUserId" resultMap="com.jin10.spider.spiderserver.mapper.SysRoleMapper.SysRoleMap">
+       select r.role_id,r.role_name
+       from sys_role r
+       left  join  sys_user_role ur on
+       r.role_id=ur.role_id
+       where ur.user_id=#{userId,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getUserInfo" resultMap="SysUserVOMap">
+
+       select user_id,username,email,phone
+       from sys_user
+       where user_id=#{userId,jdbcType=BIGINT}
+
+    </select>
+
+
+    <select id="findMaintainer" resultMap="BaseResultMap">
+         select u.user_id,u.username,u.phone from sys_user u where maintainer=1;
+    </select>
+
+
+</mapper>

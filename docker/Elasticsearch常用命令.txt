@@ -1,0 +1,7 @@
+
+##1.清除索引
+curl -XDELETE -u elastic:changeme http://localhost:9200/spider-message
+
+
+##2.设置最大max_result_window
+curl  -H "Content-Type: application/json" -XPUT http://localhost:9200/_all/_settings?preserve_existing=true -d '{"max_result_window" : "2000000000"}'

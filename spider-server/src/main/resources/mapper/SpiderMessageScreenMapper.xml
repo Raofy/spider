@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jin10.spider.spiderserver.mapper.SpiderMessageScreenMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jin10.spider.spiderserver.entity.SpiderMessageScreen">
+        <id column="id" property="id"/>
+        <result column="msg_id" property="msgId"/>
+        <result column="task_id" property="taskId"/>
+        <result column="temp_id" property="tempId"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="title" property="title"/>
+        <result column="url" property="url"/>
+        <result column="source" property="source"/>
+        <result column="category" property="category"/>
+        <result column="time" property="time"/>
+        <result column="remark" property="remark"/>
+        <result column="channel" property="channel"/>
+        <result column="push_flag" property="pushFlag"/>
+        <result column="insert_time" property="insertTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, msg_id, task_id, temp_id, dept_id, title, url, source, category, time, remark, channel, push_flag,insert_time
+    </sql>
+
+
+    <delete id="deleteAll">
+      delete from spider_message_screen where insert_time <![CDATA[<=]]> NOW() and user_id=#{userId,jdbcType=BIGINT}
+    </delete>
+
+</mapper>

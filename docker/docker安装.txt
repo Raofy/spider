@@ -1,0 +1,49 @@
+
+1.安装需要的软件包
+yum install -y yum-utils  device-mapper-persistent-data lvm2
+
+2.设置yum源
+yum-config-manager  --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+或者 用阿里云的
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+3.安装docker
+yum install -y docker-ce
+
+4.查询版本列表
+yum list docker-ce --showduplicates | sort -r
+
+5.指定版本安装(这里的例子是安装上面列表中的第二个)
+yum install -y docker-ce-17.09.0.ce
+
+6.启动docker
+systemctl start docker.service
+
+7.验证安装是否成功
+docker version
+
+8.设置容器日志最大值
+
+新建/etc/docker/daemon.json，若有就不用新建了。添加log-dirver和log-opts参数，样例如下：
+
+
+# vim /etc/docker/daemon.json
+
+{
+  "registry-mirrors": ["http://f613ce8f.m.daocloud.io"],
+  "log-driver":"json-file",
+  "log-opts": {"max-size":"250m", "max-file":"2"}  # max-size=500m，意味着一个容器日志大小上限是500M，max-file=3，意味着一个容器有三个日志，分别是id+.json、id+1.json、id+2.json。
+}
+
+// 重启docker守护进程
+# systemctl daemon-reload
+
+# systemctl restart docker
+
+9.设置docker开机自启动
+
+systemctl enable docker
+
+10. 查看docker容器状态
+
+docker stats
