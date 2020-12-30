@@ -34,7 +34,7 @@ public class DealTaskCacheThread {
 
 
     /**
-     * 每分钟执行一次
+     * 10秒执行一次
      */
     @Scheduled(cron = "0/10 * * * * ? ")
     public void dealTaskCache() {
@@ -49,7 +49,7 @@ public class DealTaskCacheThread {
                 try {
                     for (UrlTaskDtoPri urlTaskDtoPri : GlobalCache.taskDtoPrisQueue) {
                         UrlTaskDtoPri take = GlobalCache.taskDtoPrisQueue.take();
-                        pushTaskMsgService.pushMsg(take.getUrlTaskDto());
+                        pushTaskMsgService.pushMsg(take.getUrlTaskDto());        // 推送任务到python服务器
                     }
                     log.info("缓存任务处理完毕！！！");
                 } catch (InterruptedException e) {

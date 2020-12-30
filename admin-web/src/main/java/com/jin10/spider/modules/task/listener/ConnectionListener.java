@@ -30,7 +30,7 @@ public class ConnectionListener implements ChannelFutureListener {
     private WebSocketClient webSocketClient;
 
     @Value("${custom.socket.serverUrl}")
-    private String url;
+    private String url;                             // websocket服务器地址
 
     @Override
     public void operationComplete(ChannelFuture channelFuture) throws Exception {

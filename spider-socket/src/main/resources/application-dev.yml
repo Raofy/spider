@@ -6,7 +6,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://192.168.232.136:3306/sprider?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
       username: root
-      password: root123
+      password: 123456
       initial-size: 10
       max-active: 100
       min-idle: 10
@@ -40,7 +40,7 @@ spring:
     database: 0
     host: 192.168.232.136
     port: 6379
-    password:  j6ixcv2airw # 密码（默认为空）
+    password:  ""  # j6ixcv2airw # 密码（默认为空）
     timeout: 6000  # 连接超时时长（毫秒）
     jedis:
       pool:
@@ -51,4 +51,4 @@ spring:
 
 custom:
   admin:
-    httpUrl: http://192.168.60.129:7100
+    httpUrl: http://localhost:7100   # http://192.168.60.129:7100      # 爬虫调度端地址

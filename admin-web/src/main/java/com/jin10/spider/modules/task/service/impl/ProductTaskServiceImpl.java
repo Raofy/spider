@@ -74,7 +74,7 @@ public class ProductTaskServiceImpl implements IProductTaskService {
          */
         templateList.stream().filter(item -> item.getRetryTimes() > 15).forEach(item -> item.setAllowFailTimes(new AtomicInteger(item.getRetryTimes())));
         /**
-         * 计算域名对应的个数
+         * 计算域名对应的个数，数据结构为map(ip地址，个数)
          */
         Map<String, Long> domainMap = templateList.stream().collect(Collectors.groupingBy(Template::getDomainName, Collectors.counting()));
         domainMap.forEach((k, v) -> redisUtils.hset(RedisKey.DOMAIN_NAME_MAP, k, v));
@@ -82,7 +82,7 @@ public class ProductTaskServiceImpl implements IProductTaskService {
          * 需要代理的域名
          */
         Map<String, ProxyTemplate> proxyDomainMap = templateList.stream().filter(Template::WheProxy).collect(Collectors.toMap(Template::getDomainName, item -> new ProxyTemplate(item.getProxyLevel(), item.getWeforeign()), (k1, k2) -> k1));
-        proxyDomainMap.forEach((k, v) -> redisUtils.hset(RedisKey.DOMAIN_PROXY_MAP, k, v));
+        proxyDomainMap.forEach((k, v) -> redisUtils.hset(RedisKey.DOMAIN_PROXY_MAP, k, v));  // 键 项 值 （domainNameMap，127.0.0.1, 28）
 
         Map<Long, List<TemplateRule>> runningRule = ruleService.findRuningRule();
         if (!CollectionUtils.isEmpty(runningRule) && !CollectionUtils.isEmpty(templateList)) {

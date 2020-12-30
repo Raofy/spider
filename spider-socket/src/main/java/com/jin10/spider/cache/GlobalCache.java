@@ -28,7 +28,7 @@ public class GlobalCache {
 
 
     /**
-     * 缓存任务优先级列表
+     * 缓存任务优先级列表（任务队列）
      */
     public static PriorityBlockingQueue<UrlTaskDtoPri> taskDtoPrisQueue = new PriorityBlockingQueue<>();
 

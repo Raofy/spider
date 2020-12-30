@@ -57,6 +57,7 @@ public class CleanTerminalRecordSchedule {
 
     /**
      * 统计消息速率
+     * 从40秒开始执行，每分钟执行一次
      */
     @Scheduled(cron = "40 0/1 * * * ? ")
     public void staticsMsgNum() {

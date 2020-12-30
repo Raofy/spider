@@ -13,6 +13,9 @@ import io.netty.util.concurrent.GlobalEventExecutor;
  */
 public class ClientChannelGroup {
 
+    /**
+     * 记录所有加入websocket服务器的客户端地址
+     */
     public static ChannelGroup clientGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
 }

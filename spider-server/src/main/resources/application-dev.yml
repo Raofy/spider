@@ -115,11 +115,11 @@ mybatis-plus:
 
 custom:
   admin:
-    url: http://192.168.60.129:7100
+    url: http://localhost:7100 # http://192.168.60.129:7100
   push:
-    url: http://192.168.60.129:14570
+    url: http://localhost:14570
   dingding:
-    receiver: 18883179959,13726218258,18814374928
+    receiver: 15986941493 # 18883179959,13726218258,18814374928
     httpUrl: https://oapi.dingtalk.com/robot/send?access_token=bd2012d22ea5ecb30e556d16ccacf46e98361af67573a48b3017c33dd8adc475
     httpDispatchUrl: https://oapi.dingtalk.com/robot/send?access_token=aeca03649b5f2ef6e0389cb8d86b3bb16ac8b2e6cdd3e9e102745ae492c4e9d4
   check: UGJJKoOj5e1

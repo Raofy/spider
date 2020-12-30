@@ -72,19 +72,19 @@ custom:
   nativeAddress: http://192.168.60.129:7100/
   serverAddress: http://192.168.60.129:7200/
   dingding:
-    receiver: 18883179959,13726218258,18814374928
+    receiver: 15986941493 # 18883179959,13726218258,18814374928
     adminUrl: https://oapi.dingtalk.com/robot/send?access_token=edf26dbc292b7e7f0b4713da92902fe3e8f6facc6c8fd9ae97d3a9aff1987007 #调度警告
     httpDispatchUrl: https://oapi.dingtalk.com/robot/send?access_token=aeca03649b5f2ef6e0389cb8d86b3bb16ac8b2e6cdd3e9e102745ae492c4e9d4
     secretKeyUrl: https://oapi.dingtalk.com/robot/send?access_token=4956562a25641fc41c852564a035bdd30aacf3268da00e64c7255f33f7cfe322
     secretKey: SECb9ab381bffacd2198af185c155ff0417836129f37e17b327384d7ab5787684ae
   spider:
-    baseUrl: http://172.16.30.177:8880/ # 爬虫服务的url
-    foreignUrl: http://47.252.78.151:8880/ # 国外服务器地址
+    baseUrl:                               # http://172.16.30.177:8880/    # 爬虫机器的url
+    foreignUrl:                            # http://47.252.78.151:8880/ # 国外服务器地址
   socket:
-    serverUrl: ws://192.168.60.129:12550/ws
+    serverUrl: ws://localhost:12550/ws     # ws://192.168.60.129:12550/ws
   ping:
-    mainUrl: http://115.29.174.245/ping
-    foreignUrl: http://47.252.78.151/ping
+    mainUrl: http://115.29.174.245/ping    # ip校验国内ping地址
+    foreignUrl: http://47.252.78.151/ping  # Ip 校验国外地址
 
 
 

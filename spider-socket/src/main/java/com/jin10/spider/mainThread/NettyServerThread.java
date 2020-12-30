@@ -38,7 +38,7 @@ public class NettyServerThread implements CommandLineRunner {
         redisUtils.del(RedisKey.SPIDER_NODE_FOREIGN_ZSET);
 
         log.warn("websocket服务器准备启动！ 端口为 :  " + port);
-        log.info("url =" + url);
+        log.info("调度服务器地址url =" + url);                             // 调度服务器地址
         nettyServer.init(port);
         return;
     }
