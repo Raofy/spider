@@ -41,6 +41,11 @@ public class TaskInfoController {
     }
 
 
+    /**
+     * 获取队列中的任务，等同于 爬虫端 websocet 获取任务
+     *
+     * @return
+     */
     @PostMapping("/getTasks")
     public BaseResponse getTasks(){
         List<UrlTaskDto> tasks = taskProcessService.getTasks(false);

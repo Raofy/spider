@@ -200,6 +200,11 @@ public class TemplateController {
         return BaseResponse.ok(renewal);
     }
 
+    /**
+     * 若任务里的模版信息与目前模版信息不一致，可刷新 任务
+     *
+     * @return
+     */
     @SysLog("刷新模版")
     @PostMapping("/refresh")
     public BaseResponse refresh() {
